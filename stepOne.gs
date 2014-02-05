@@ -1,7 +1,7 @@
-var scriptTitle = "formFolio Script V1.0.6 (9/15/13)";
+var scriptTitle = "formFolio Script V1.0.7 (1/30/14)";
 var scriptName = 'formFolio';
 var scriptTrackingId = 'UA-43639576-1';
-var waitingIconId = '0B7-FEGXAo-DGalczbTk3UEtWdlk';
+var waitingIconId = '0B7-FEGXAo-DGMlJaSVloVnhqRTA';
 var waitingImageUrl = 'https://drive.google.com/uc?export=download&id='+this.waitingIconId;
 
 // Written by Andrew Stillman for New Visions for Public Schools
@@ -102,7 +102,7 @@ function formFolio_runInstallation() {
     ScriptProperties.setProperty('formSheetId', formSheetId);
   }
   ScriptProperties.setProperty('installed', 'true');
-  Browser.msgBox("formFolio successfully initialized. " + msg);
+  ss.toast("formFolio successfully initialized. " + msg);
   onOpen();
 }
 
@@ -127,6 +127,7 @@ function formFolio_addEmailQuestion(form) {
 
 
 function formFolio_settingsUi() {
+  setSid();
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var properties = ScriptProperties.getProperties();
   if (!ss) {
