@@ -1,5 +1,4 @@
 function formFolio_preconfig() {
-  setFormFolioSid();
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var ssId = ss.getId();
   ScriptProperties.setProperty('ssId', ssId);
@@ -9,9 +8,17 @@ function formFolio_preconfig() {
  
 
   
+  
   //#######End preconfiguration code#######
   //remember to clear out all folder keys in folder key sheets if you are making a copy of this system for others.
-  
+  //Fetch system name, if this script is part of a New Visions system
+  var systemName = NVSL.getSystemName();
+  if (systemName) {
+    ScriptProperties.setProperty('systemName', systemName)
+  }
+  //Fetch institutional tracking code.  If it exists, launch initialize function (autolaunch step 1 for repeat users)
+  //If it doesn't exist, the checkInstitutionalTrackingCode() will launch the tracking settings UI.
+  var institutionalTrackingString = NVSL.checkInstitutionalTrackingCode();
 }
 
 
