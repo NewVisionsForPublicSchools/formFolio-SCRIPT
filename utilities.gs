@@ -419,34 +419,33 @@ function formFolio_logNotSharedProperly()
   NVSL.log("Drive%20Resource%20Not%20Shared%20Prior%20To%20Submission", scriptName, scriptTrackingId, systemName)
 }
 
-function formFolio_logRepeatInstall()
-{
-  var systemName = ScriptProperties.getProperty("systemName")
-  NVSL.log("Repeat%20Install", scriptName, scriptTrackingId, systemName)
-}
-
-function formFolio_logFirstInstall()
-{
-  var systemName = ScriptProperties.getProperty("systemName")
-  NVSL.log("First%20Install", scriptName, scriptTrackingId, systemName)
-}
-
-
-function setFormFolioSid()
-{ 
-  var formfolio_sid = ScriptProperties.getProperty("formfolio_sid");
-  if (formfolio_sid == null || formfolio_sid == "")
+//This function makes a call to the correct installation function.
+//Embed this in the function that creates first actively loaded UI panel within the script
+function setSid() { 
+  var scriptNameLower = scriptName.toLowerCase();
+  var sid = ScriptProperties.getProperty(scriptNameLower + "_sid");
+  if (sid == null || sid == "")
   {
     var dt = new Date();
     var ms = dt.getTime();
     var ms_str = ms.toString();
-    ScriptProperties.setProperty("formfolio_sid", ms_str);
-    var formfolio_uid = UserProperties.getProperty("formfolio_uid");
-    if (formfolio_uid != null && formfolio_uid != "") {
-      formFolio_logRepeatInstall();
-    }else{ //user has never installed this script before (on any spreadsheet)
-      formFolio_logFirstInstall();
-      UserProperties.setProperty('formfolio_uid', ms_str);
-    }
+    ScriptProperties.setProperty(scriptNameLower + "_sid", ms_str);
+    var uid = UserProperties.getProperty(scriptNameLower + "_uid");
+    if (uid) {
+      logRepeatInstall();
+    } else {
+      logFirstInstall();
+      UserProperties.setProperty(scriptNameLower + "_uid", ms_str);
+    }      
   }
+}
+
+function logRepeatInstall() {
+  var systemName = ScriptProperties.getProperty("systemName")
+  NVSL.log("Repeat%20Install", scriptName, scriptTrackingId, systemName)
+}
+
+function logFirstInstall() {
+  var systemName = ScriptProperties.getProperty("systemName")
+  NVSL.log("First%20Install", scriptName, scriptTrackingId, systemName)
 }
